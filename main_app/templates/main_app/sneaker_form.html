@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Leaving the action empty makes the form post to the same url used to display it -->
+
+<div class="form-group">
+  <form action="" method="post">
+    <!-- Django requires the following for security purposes -->
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
 from .models import Sneaker
+from .forms import SneakerForm
 
 from django.http import HttpResponse
 
@@ -25,6 +27,12 @@ from django.http import HttpResponse
 
 
 # Create your views here.
+
+class SneakerCreate(CreateView):
+    model = Sneaker
+    form_class = SneakerForm
+    # fields = '__all__'
+
 
 def home(request):
     sneakers = Sneaker.objects.all()

@@ -5,7 +5,7 @@
   <div class="row justify-content-md-center">
       {% for sneaker in sneakers %}
       <div class="col-md card mt-2" style="max-width: 800px">
-      <a href="/sneakers/{{sneaker.id}}">
+      <a href="{% url 'detail' sneaker.id %}">
         <img src="{{ sneaker.image }}" class="card-img-top" />
         <div class="card-body">   
           <h5 class="card-title">{{ sneaker.name }}</h5>
