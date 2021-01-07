@@ -11,4 +11,5 @@ urlpatterns = [
          views.SneakerUpdate.as_view(), name='sneakers_update'),
     path('sneakers/<int:pk>/delete/',
          views.SneakerDelete.as_view(), name='sneakers_delete'),
+    path('accounts/signup/', views.signup, name='signup'),
 ]

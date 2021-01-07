@@ -1,12 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from .models import Sneaker
 from .forms import SneakerForm
 
 from django.http import HttpResponse
-
-
-# Add the Cat class & list and view function below the imports
 
 
 # class Sneaker:  # Note that parens are optional if not inheriting from another class
@@ -28,27 +32,33 @@ from django.http import HttpResponse
 
 # Create your views here.
 
-class SneakerCreate(CreateView):
+class SneakerCreate(LoginRequiredMixin, CreateView):
     model = Sneaker
     form_class = SneakerForm
     # fields = '__all__'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class SneakerUpdate(UpdateView):
+
+class SneakerUpdate(LoginRequiredMixin, UpdateView):
     model = Sneaker
     form_class = SneakerForm
     # Let's disallow the renaming of a cat by excluding the name field!
     # fields = ['description', 'link', 'image']
 
 
-class SneakerDelete(DeleteView):
+class SneakerDelete(LoginRequiredMixin, DeleteView):
     model = Sneaker
     form_class = SneakerForm
     success_url = '/sneakers/'
 
 
+@login_required
 def home(request):
-    sneakers = Sneaker.objects.all()
+    sneakers = Sneaker.objects.filter(user=request.user)
+    # sneakers = Sneaker.objects.all()
     return render(request, 'sneakers/index.html', {'sneakers': sneakers})
 
 
@@ -56,11 +66,34 @@ def about(request):
     return render(request, 'about.html')
 
 
+@login_required
 def sneakers_index(request):
-    sneakers = Sneaker.objects.all()
+    sneakers = Sneaker.objects.filter(user=request.user)
+    # sneakers = Sneaker.objects.all()
     return render(request, 'sneakers/index.html', {'sneakers': sneakers})
 
 
+@login_required
 def sneakers_detail(request, sneaker_id):
     sneaker = Sneaker.objects.get(id=sneaker_id)
     return render(request, 'sneakers/detail.html', {'sneaker': sneaker})
+
+
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        # This is how to create a 'user' form object
+        # that includes the data from the browser
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # This will add the user to the database
+            user = form.save()
+            # This is how we log a user in via code
+            login(request, user)
+            return redirect('index')
+        else:
+            error_message = 'Invalid sign up - try again'
+    # A bad POST or a GET request, so render signup.html with an empty form
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)

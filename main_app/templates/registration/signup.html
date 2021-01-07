@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block content %}
+
+<h2 class="mt-3">SIGN UP</h1>
+
+<form method="post" action="{% url 'signup' %}">
+  {% csrf_token %}
+  </br>
+  <div class="mb-3">
+    <input type="text" class="form-control" name="username" placeholder="Username">
+  </div> 
+  <div class="form-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+  </br>
+  <div class="mb-3">
+    <input type="password" class="form-control" name="password1" placeholder="Password">
+  </div>
+  <ul class="form-text">
+    <li>Your password can’t be too similar to your other personal information.</li>
+    <li>Your password must contain at least 8 characters.</li>
+    <li>Your password can’t be a commonly used password.</li>
+    <li>Your password can’t be entirely numeric.</li>
+  </ul>
+  <div class="mb-3">
+    <input type="password" class="form-control" name="password2" placeholder="Password Confirmation">
+  </div>
+  <span class="form-text">Enter the same password as before, for verification.</span>
+  </br>
+  </br>
+  <input type="submit" class="btn btn-dark" value="SIGNUP">
+</form>
+
+
+{% endblock %}
