@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Sneaker
 from .forms import SneakerForm
 
@@ -32,6 +32,19 @@ class SneakerCreate(CreateView):
     model = Sneaker
     form_class = SneakerForm
     # fields = '__all__'
+
+
+class SneakerUpdate(UpdateView):
+    model = Sneaker
+    form_class = SneakerForm
+    # Let's disallow the renaming of a cat by excluding the name field!
+    # fields = ['description', 'link', 'image']
+
+
+class SneakerDelete(DeleteView):
+    model = Sneaker
+    form_class = SneakerForm
+    success_url = '/sneakers/'
 
 
 def home(request):

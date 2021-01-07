@@ -5,6 +5,15 @@
 
 .card-title {
   color: black;
-  font-weight: 700;
   font-size: 25px;
+  font-weight: 500;
+}
+
+.card-footer {
+  color: black;
+  font-weight: 700;
+}
+
+.card-footer > a {
+  text-decoration: none;
 }

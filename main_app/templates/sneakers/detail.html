@@ -8,8 +8,13 @@
       <img src="{{ sneaker.image }}" class="card-img-top" />
 
       <div class="card-body">
+        <h5 class="card-title">{{ sneaker.name }}</h5>
         <p class="card-text">{{ sneaker.description }}</p>
-        <a href="{{sneaker.link}}" class="btn btn-primary">LEARN MORE</a>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'sneakers_update' sneaker.id %}"> EDIT</a>
+        &nbsp;&nbsp;
+        <a href="{% url 'sneakers_delete' sneaker.id %}">DELETE</a>
       </div>
     </div>
 
