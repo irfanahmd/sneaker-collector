@@ -1,1 +1,1 @@
-web: gunicorn sneakercollecter.wsgi
+web: gunicorn sneakercollector.wsgi
